@@ -2,7 +2,6 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { BusinessError, BusinessLogicException } from '../shared/errors/business-error';
-import { ProductDTO } from './product.dto';
 import { ProductEntity } from './product.entity';
 
 @Injectable()
