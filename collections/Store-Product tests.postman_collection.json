@@ -180,6 +180,38 @@
 			"response": []
 		},
 		{
+			"name": "Get  store by product",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var data = JSON.parse(responseBody);\r",
+							"tests[\"GET request doesn't fail\"] = responseCode.code === 200;"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/products/{{product_id}}/stores/{{store_id}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"products",
+						"{{product_id}}",
+						"stores",
+						"{{store_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "Get  store by product invalid",
 			"event": [
 				{
