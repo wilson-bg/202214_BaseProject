@@ -33,7 +33,7 @@ describe('StoreService', () => {
       const store: StoreEntity = await repository.save({
         id: faker.datatype.uuid(),
         name: faker.company.name(),
-        city: faker.address.city(),
+        city: 'BOG',
         address: faker.address.direction()
       });
       storesList.push(store);
@@ -70,7 +70,7 @@ describe('StoreService', () => {
     const store: StoreEntity = {
       id: faker.datatype.uuid(),
       name: faker.company.name(),
-      city: faker.address.city(),
+      city: 'BOG',
       address: faker.address.direction(),
       products:[]
     }
@@ -86,10 +86,22 @@ describe('StoreService', () => {
 
   });
 
+  it('create should throw an exception for an invalid city', async () => {
+    const store: StoreEntity = {
+      id: faker.datatype.uuid(),
+      name: faker.company.name(),
+      city: 'Bogota',
+      address: faker.address.direction(),
+      products:[]
+    }
+    await expect(() => service.create(store)).rejects.toHaveProperty("message", "The city is invalid")
+
+  });
+
   it('update should modify a store', async () => {
     const store: StoreEntity = storesList[0];
     store.name = "Evergreen";
-    store.city = " Springfield";
+    store.city = "BOG";
     store.address = "742 Evergreen Terrace";
 
     const updatedStore: StoreEntity = await service.update(store.id, store);

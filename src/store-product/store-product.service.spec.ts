@@ -43,7 +43,7 @@ describe('StoreProductService', () => {
       const store: StoreEntity = await storeRepository.save({
         id: faker.datatype.uuid(),
         name: faker.company.name(),
-        city: faker.address.city(),
+        city: 'BOG',
         address: faker.address.direction()
       });
       storesList.push(store);
@@ -68,7 +68,7 @@ describe('StoreProductService', () => {
     const store = await storeRepository.save({
       id: faker.datatype.uuid(),
       name: faker.company.name(),
-      city: faker.address.city(),
+      city: 'MED',
       address: faker.address.direction()
     });
     //product.stores.push(store);
@@ -79,25 +79,10 @@ describe('StoreProductService', () => {
   });
 
   it('addStoreToProduct should thrown exception for an invalid store', async () => {
-    /*const product: ProductEntity = await productRepository.({
-      id: faker.datatype.uuid(),
-      name: `ProductNew ${faker.datatype.number()}`,
-      price: parseInt(faker.random.numeric(5)),
-      type: faker.datatype.number({ max: 100 }) > 50 ? PRODUCT_TYPE.PERISHABLE : PRODUCT_TYPE.NONPERISHABLE,
-      stores:[]
-    });
-    */
     await expect(service.addStoreToProduct(emptyId, product.id)).rejects.toHaveProperty('message','The store with the given id was not found');
   });
 
   it('addStoreToProduct should thrown exception for an invalid product', async () => {
-    /*const store: StoreEntity = await storeRepository.save({
-      id: faker.datatype.uuid(),
-      name: faker.company.name(),
-      city: faker.address.city(),
-      address: faker.address.direction()
-    });*/
-
     await expect(service.addStoreToProduct(storesList[0].id, emptyId)).rejects.toHaveProperty('message','The product with the given id was not found');
   });
 
@@ -131,7 +116,7 @@ describe('StoreProductService', () => {
     const store: StoreEntity = await storeRepository.save({
       id: faker.datatype.uuid(),
       name: faker.company.name(),
-      city: faker.address.city(),
+      city: 'BOG',
       address: faker.address.direction()
     });
 
@@ -153,14 +138,14 @@ describe('StoreProductService', () => {
     const store1: StoreEntity = await storeRepository.save({
       id: faker.datatype.uuid(),
       name: faker.company.name(),
-      city: faker.address.city(),
+      city: 'BOG',
       address: faker.address.direction()
     });
 
     const store2: StoreEntity = await storeRepository.save({
       id: faker.datatype.uuid(),
       name: faker.company.name(),
-      city: faker.address.city(),
+      city: 'BOG',
       address: faker.address.direction()
     });
 
@@ -170,13 +155,11 @@ describe('StoreProductService', () => {
 
   });
 
-
-
   it('updateStoresFromProduct should thrown an exception for an invalid product', async () => {
     const store: StoreEntity = await storeRepository.save({
       id: faker.datatype.uuid(),
       name: faker.company.name(),
-      city: faker.address.city(),
+      city: 'BOG',
       address: faker.address.direction()
     });
     await expect(service.updateStoresFromProduct(emptyId, [store])).rejects.toHaveProperty('message', 'The product with the given id was not found');
@@ -186,7 +169,7 @@ describe('StoreProductService', () => {
     const store: StoreEntity = {
       id: faker.datatype.uuid(),
       name: faker.company.name(),
-      city: faker.address.city(),
+      city: 'BOG',
       address: faker.address.direction(),
       products: []
     };
@@ -205,7 +188,7 @@ describe('StoreProductService', () => {
     const store: StoreEntity = await storeRepository.save({
       id: faker.datatype.uuid(),
       name: faker.company.name(),
-      city: faker.address.city(),
+      city: 'BOG',
       address: faker.address.direction()
     });
     await expect(service.deleteStoreFromProduct(store.id, product.id)).rejects.toHaveProperty('message','The product with the given id is not associated to the store');
