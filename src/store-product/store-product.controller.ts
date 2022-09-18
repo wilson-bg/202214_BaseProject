@@ -12,7 +12,7 @@ export class StoreProductController {
 
     @Post(':productId/stores/:storeId')
     @HttpCode(200)
-    async addArtworkMuseum(@Param('productId') productId: string, @Param('storeId') storeId: string){
+    async addStoreToProduct(@Param('productId') productId: string, @Param('storeId') storeId: string){
         const product = await this.storeProductService.addStoreToProduct(storeId, productId);
         return plainToInstance(StoreDTO, product);
     }
