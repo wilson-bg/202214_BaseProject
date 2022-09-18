@@ -10,7 +10,8 @@ describe('StoreService', () => {
   let service: StoreService;
   let repository: Repository<StoreEntity>;
   let storesList: StoreEntity[];
-
+  const emptyId = '00000000-0000-0000-0000-000000000000';
+  
   beforeAll(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [...TypeOrmTestingConfig()],
@@ -62,7 +63,7 @@ describe('StoreService', () => {
   });
 
   it('findOne should throw an exception for an invalid store', async () => {
-    await expect(() => service.findOne("0")).rejects.toHaveProperty("message", 'The store with the given id was not found');
+    await expect(() => service.findOne(emptyId)).rejects.toHaveProperty("message", 'The store with the given id was not found');
   });
 
   it('create should return a new store', async () => {
@@ -106,7 +107,7 @@ describe('StoreService', () => {
     store = {
       ...store, name: "Evergreen", city: " Springfield", address: "742 Evergreen Terrace"
     }
-    await expect(() => service.update("0", store)).rejects.toHaveProperty("message", "The store with the given id was not found")
+    await expect(() => service.update(emptyId, store)).rejects.toHaveProperty("message", "The store with the given id was not found")
   });
 
   it('delete should remove a store', async () => {
@@ -118,7 +119,7 @@ describe('StoreService', () => {
   });
 
   it('delete should throw an exception for an invalid store', async () => {
-    await expect(() => service.delete("0")).rejects.toHaveProperty("message", "The store with the given id was not found")
+    await expect(() => service.delete(emptyId)).rejects.toHaveProperty("message", "The store with the given id was not found")
   });  
   
 });

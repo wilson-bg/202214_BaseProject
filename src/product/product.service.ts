@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { PRODUCT_TYPE } from '../producttype/producttype.enum';
 import { Repository } from 'typeorm';
 import { BusinessError, BusinessLogicException } from '../shared/errors/business-error';
 import { ProductEntity } from './product.entity';
@@ -25,10 +26,9 @@ export class ProductService {
     }   
 
     async create(product: ProductEntity): Promise<ProductEntity> {
-        /*const product = new ProductEntity();
-        product.name = productDTO.name;
-        product.price = productDTO.price;
-        product.type = productDTO.type; */      
+        if (product.type && Object.values(PRODUCT_TYPE).includes(product.type.toUpperCase() as PRODUCT_TYPE) == false){
+            throw new BusinessLogicException('The type product is invalid', BusinessError.BAD_REQUEST);
+        }
         return await this.productRepository.save(product);
     }
 
@@ -36,12 +36,6 @@ export class ProductService {
         const  persistedProduct = await this.productRepository.findOne(id);
         if (!persistedProduct)
           throw new BusinessLogicException("The product with the given id was not found", BusinessError.NOT_FOUND)
-        
-        /*persistedProduct.name = product.name;
-        persistedProduct.price = product.price;
-        persistedProduct.type = product.type; 
-        await this.productRepository.save(product);
-        return product;*/
         return await this.productRepository.save({...persistedProduct, ...product});
     }
 

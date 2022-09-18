@@ -14,7 +14,7 @@ export class ProductEntity {
     price: number;
 
     @Column()
-    type: PRODUCT_TYPE;
+    type: String;
 
     @ManyToMany(() => StoreEntity, store => store.products/*, {
         onDelete: 'CASCADE'

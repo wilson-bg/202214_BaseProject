@@ -11,6 +11,7 @@ describe('ProductService', () => {
   let service: ProductService;
   let repository: Repository<ProductEntity>;
   let productsList: ProductEntity[];
+  const emptyId = '00000000-0000-0000-0000-000000000000';
 
   beforeAll(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -59,7 +60,7 @@ describe('ProductService', () => {
   });
 
   it('findOne should throw an exception for an invalid product', async () => {
-    await expect(() => service.findOne("0")).rejects.toHaveProperty("message", 'The product with the given id was not found');
+    await expect(() => service.findOne(emptyId)).rejects.toHaveProperty("message", 'The product with the given id was not found');
   });
 
   it('create should return a new product', async () => {
@@ -103,7 +104,7 @@ describe('ProductService', () => {
     product = {
       ...product, name: "New name", price: 10000, type: PRODUCT_TYPE.PERISHABLE
     }
-    await expect(() => service.update("0", product)).rejects.toHaveProperty("message", "The product with the given id was not found")
+    await expect(() => service.update(emptyId, product)).rejects.toHaveProperty("message", "The product with the given id was not found")
   });
 
   it('delete should remove a product', async () => {
@@ -115,7 +116,7 @@ describe('ProductService', () => {
   });
 
   it('delete should throw an exception for an invalid product', async () => {
-    await expect(() => service.delete("0")).rejects.toHaveProperty("message", "The product with the given id was not found")
+    await expect(() => service.delete(emptyId)).rejects.toHaveProperty("message", "The product with the given id was not found")
   });  
 
 

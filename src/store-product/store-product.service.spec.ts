@@ -14,6 +14,7 @@ describe('StoreProductService', () => {
   let productRepository: Repository<ProductEntity>;
   let product: ProductEntity;
   let storesList: StoreEntity[];
+  const emptyId = '00000000-0000-0000-0000-000000000000';
 
   beforeAll(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -86,7 +87,7 @@ describe('StoreProductService', () => {
       stores:[]
     });
     */
-    await expect(service.addStoreToProduct('0', product.id)).rejects.toHaveProperty('message','The store with the given id was not found');
+    await expect(service.addStoreToProduct(emptyId, product.id)).rejects.toHaveProperty('message','The store with the given id was not found');
   });
 
   it('addStoreToProduct should thrown exception for an invalid product', async () => {
@@ -97,7 +98,7 @@ describe('StoreProductService', () => {
       address: faker.address.direction()
     });*/
 
-    await expect(service.addStoreToProduct(storesList[0].id, "0")).rejects.toHaveProperty('message','The product with the given id was not found');
+    await expect(service.addStoreToProduct(storesList[0].id, emptyId)).rejects.toHaveProperty('message','The product with the given id was not found');
   });
 
   
@@ -109,7 +110,7 @@ describe('StoreProductService', () => {
 
 
   it('findStoresFromProduct should throw an exception for an invalid product', async () => {
-    await expect(service.findStoresFromProduct('0')).rejects.toHaveProperty('message', 'The product with the given id was not found');
+    await expect(service.findStoresFromProduct(emptyId)).rejects.toHaveProperty('message', 'The product with the given id was not found');
   });
 
   it('findStoreFromProduct should return a store from a product', async () => {
@@ -119,11 +120,11 @@ describe('StoreProductService', () => {
   });
 
   it('findStoreFromProduct should throw an exception for an invalid product', async () => {
-    await expect(service.findStoreFromProduct(storesList[0].id, '0')).rejects.toHaveProperty('message','The product with the given id was not found');
+    await expect(service.findStoreFromProduct(storesList[0].id, emptyId)).rejects.toHaveProperty('message','The product with the given id was not found');
   });
 
   it('findStoreFromProduct should throw an exception for an invalid store', async () => {
-    await expect(service.findStoreFromProduct('0', product.id)).rejects.toHaveProperty('message','The store with the given id was not found');
+    await expect(service.findStoreFromProduct(emptyId, product.id)).rejects.toHaveProperty('message','The store with the given id was not found');
   });
 
   it('findStoreFromProduct should thrown an exception for an non asocciated store', async () => {
@@ -178,7 +179,7 @@ describe('StoreProductService', () => {
       city: faker.address.city(),
       address: faker.address.direction()
     });
-    await expect(service.updateStoresFromProduct('0', [store])).rejects.toHaveProperty('message', 'The product with the given id was not found');
+    await expect(service.updateStoresFromProduct(emptyId, [store])).rejects.toHaveProperty('message', 'The product with the given id was not found');
   });
 
   it('updateStoresFromProduct should thrown an exception for an invalid store', async () => {
@@ -193,11 +194,11 @@ describe('StoreProductService', () => {
   });
 
   it('deleteStoreFromProduct should thrown an exception for an invalid product', async () => {
-    await expect(service.deleteStoreFromProduct(storesList[0].id, '0')).rejects.toHaveProperty('message','The product with the given id was not found');
+    await expect(service.deleteStoreFromProduct(storesList[0].id, emptyId)).rejects.toHaveProperty('message','The product with the given id was not found');
   });
 
   it('deleteStoreFromProduct should thrown an exception for an invalid store', async () => {
-    await expect(service.deleteStoreFromProduct('0', product.id)).rejects.toHaveProperty('message','The store with the given id was not found');
+    await expect(service.deleteStoreFromProduct(emptyId, product.id)).rejects.toHaveProperty('message','The store with the given id was not found');
   });
 
   it('deleteStoreFromProduct should thrown an exception for an non asocciated product ', async () => {
