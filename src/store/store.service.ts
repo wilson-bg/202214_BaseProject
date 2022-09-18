@@ -6,14 +6,13 @@ import { StoreDTO } from './store.dto';
 import { StoreEntity } from './store.entity';
 
 @Injectable()
-export class StoreService {
-
+export class StoreService {    
+    cities: string[] = ['SMR', 'BOG', 'MED'];
     constructor(
         @InjectRepository(StoreEntity)
         private readonly storeRepository: Repository<StoreEntity>
     ) {}
-
-
+    
     async findAll(): Promise<StoreEntity[]> {
         return await this.storeRepository.find({ relations: ["products"] });
     }
@@ -27,10 +26,8 @@ export class StoreService {
     }   
 
     async create(store: StoreEntity): Promise<StoreEntity> {
-        /*const store = new StoreEntity();
-        store.name = storeDTO.name;
-        store.city = storeDTO.city;
-        store.address = storeDTO.address;*/
+        if(!store.city || (store.city && this.cities.includes(store.city.trim().toUpperCase()) == false))
+            throw new BusinessLogicException('The city is invalid', BusinessError.BAD_REQUEST);
         return await this.storeRepository.save(store);
     }
 
@@ -38,12 +35,8 @@ export class StoreService {
         const persistedStore = await this.storeRepository.findOne(id);
         if (!persistedStore)
           throw new BusinessLogicException("The store with the given id was not found", BusinessError.NOT_FOUND)
-        
-        /*persistedStore.name = store.name;
-        persistedStore.city = store.city;
-        persistedStore.address = store.address;
-        await this.storeRepository.save(persistedStore);
-        return persistedStore;*/
+        if(!store.city || (store.city && this.cities.includes(store.city.trim().toUpperCase()) == false))
+          throw new BusinessLogicException('The city is invalid', BusinessError.BAD_REQUEST);
         return await this.storeRepository.save({...persistedStore, ...store});
     }
 

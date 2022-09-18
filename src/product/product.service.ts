@@ -26,9 +26,8 @@ export class ProductService {
     }   
 
     async create(product: ProductEntity): Promise<ProductEntity> {
-        if (product.type && Object.values(PRODUCT_TYPE).includes(product.type.toUpperCase() as PRODUCT_TYPE) == false){
+        if (!product.type || (product.type && Object.values(PRODUCT_TYPE).includes(product.type.trim().toUpperCase() as PRODUCT_TYPE) == false))
             throw new BusinessLogicException('The type product is invalid', BusinessError.BAD_REQUEST);
-        }
         return await this.productRepository.save(product);
     }
 
@@ -36,6 +35,10 @@ export class ProductService {
         const  persistedProduct = await this.productRepository.findOne(id);
         if (!persistedProduct)
           throw new BusinessLogicException("The product with the given id was not found", BusinessError.NOT_FOUND)
+        
+        if (!product.type || (product.type && Object.values(PRODUCT_TYPE).includes(product.type.trim().toUpperCase() as PRODUCT_TYPE) == false))
+            throw new BusinessLogicException('The type product is invalid', BusinessError.BAD_REQUEST);
+        
         return await this.productRepository.save({...persistedProduct, ...product});
     }
 
